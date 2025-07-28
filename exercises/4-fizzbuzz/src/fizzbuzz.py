@@ -1,14 +1,4 @@
 def fizzbuzz(number: int) -> str:
-    if number % 3 == 0 and number % 5 == 0:
-        return "FizzBuzz"
-    elif number % 3 == 0:
-        return "Fizz"
-    elif number % 5 == 0:
-        return "Buzz"
-    else:
-        return str(number)
-
-def fizzbuzz(number: int) -> str:
     is_fizz = number % 3 == 0 or '3' in str(number)
     is_buzz = number % 5 == 0 or '5' in str(number)
 
@@ -20,3 +10,10 @@ def fizzbuzz(number: int) -> str:
         return "Buzz"
     else:
         return str(number)
+
+def compute() -> None:
+    for number in range(1, 101):
+        print(fizzbuzz(number))
+
+if __name__ == "__main__":
+    compute()
