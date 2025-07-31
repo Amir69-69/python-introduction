@@ -1,50 +1,46 @@
-# exercises/6-bowling/test_bowling.py
+from src import score
+from src.BowlingGame import BowlingGame
+
+def test_score_0():
+    assert score("-- -- -- -- -- -- -- -- -- -- -- -- -- -- --") == 0
 
 
-from src.bowling import BowlingGame, InvalidFrameError, TooManyRollsError
+def test_only_strike():
+    assert score("X X X X X X X X X X X X") == 300
 
-def test_1_score_all_zeros():
-    game = BowlingGame()
-    for _ in range(20):
-        game.lancer(0)
+def test_only_spare():
+    assert score("3/ 2/ 4/ 6/ 7/ 2/ 4/ 5/ 7/ 9/ 2") == 148
+
+def test_random():
+    assert score("9- 9- 9- 9- 9- 9- 9- 9- 9- 9-") == 90
+    assert score("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5") == 150
+    assert score("45 63 27 9/ X 8/ X 9- 7/ 81 9") == 142
+
+def test_without_strike_and_spare():
+    assert score("12 34 45 54 36 27 63 18 09 90") == 82
+
+def test_with_class_score_0():
+    game = BowlingGame("-- -- -- -- -- -- -- -- -- -- -- -- -- -- --")
     assert game.score() == 0
 
-def test_2_score_all_ones():
-    game = BowlingGame()
-    for _ in range(20):
-        game.lancer(1)
-    assert game.score() == 20
-
-def test_3_one_spare():
-    game = BowlingGame()
-    game.lancer(5)
-    game.lancer(5)  # spare
-    game.lancer(3)
-    for _ in range(17):
-        game.lancer(0)
-    assert game.score() == 16  # 10 + 3
-
-def test_4_one_strike():
-    game = BowlingGame()
-    game.lancer(10)  # strike
-    game.lancer(3)
-    game.lancer(4)
-    for _ in range(16):
-        game.lancer(0)
-    assert game.score() == 24  # 10 + 3 + 4 + 3 + 4
-
-def test_5_perfect_game():
-    game = BowlingGame()
-    for _ in range(12):  # 12 strikes
-        game.lancer(10)
+def test_with_class_only_strike():
+    game = BowlingGame("X X X X X X X X X X X X")
     assert game.score() == 300
 
-def test_6_invalid_frame_too_many_quilles():
-    game = BowlingGame()
-    game.lancer(8)
-    game.lancer(5)
-    try:
-        game.score()  # C’est ici que l’erreur doit se produire
-        assert False, "Devrait lever une exception"
-    except InvalidFrameError:
-        pass
+def test_with_class_only_spare():
+    game = BowlingGame("3/ 2/ 4/ 6/ 7/ 2/ 4/ 5/ 7/ 9/ 2")
+    assert game.score() == 148
+
+def test_with_class_random():
+    game1 = BowlingGame("9- 9- 9- 9- 9- 9- 9- 9- 9- 9-")
+    assert game1.score() == 90
+
+    game2 = BowlingGame("5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5/ 5")
+    assert game2.score() == 150
+
+    game3 = BowlingGame("45 63 27 9/ X 8/ X 9- 7/ 81 9")
+    assert game3.score() == 142
+
+def test_with_class_without_strike_and_spare():
+    game = BowlingGame("12 34 45 54 36 27 63 18 09 90")
+    assert game.score() == 82
